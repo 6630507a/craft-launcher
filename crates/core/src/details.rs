@@ -53,7 +53,7 @@ const fn feature(title: &'static str, text: &'static str) -> Feature {
 pub const SCREENSHOTS_BASE: &str = "https://raw.githubusercontent.com/storytold/craft-launcher-assets";
 
 /// The tag of the pictures repository the launcher reads. Also part of the saved copies' path.
-pub const SCREENSHOTS_REV: &str = "v1";
+pub const SCREENSHOTS_REV: &str = "v2";
 
 /// The largest picture the launcher accepts. The real ones are 60 to 150 KB.
 pub const MAX_SCREENSHOT_BYTES: usize = 2 << 20;
@@ -67,7 +67,7 @@ pub fn looks_like_jpeg(bytes: &[u8]) -> bool {
 /// Where every Craft App runs (getartcraft.com lists the same for each of them).
 const PLATFORMS: &str = "macOS, Windows, Linux, FreeBSD, web";
 
-pub const DETAILS: [AppDetails; 12] = [
+pub const DETAILS: [AppDetails; 13] = [
     AppDetails {
         id: "photocraft",
         headline: "The image editor you already know how to use.",
@@ -371,6 +371,43 @@ pub const DETAILS: [AppDetails; 12] = [
         ],
         platforms: PLATFORMS,
     },
+    AppDetails {
+        id: "figcraft",
+        headline: "Interface design, rebuilt in pure Rust.",
+        about: "Frames, auto layout, components and variants, vector networks, styles, variables and prototypes in a \
+                native app that opens instantly and works offline. No account, no telemetry and no subscription. \
+                Early alpha.",
+        features: &[
+            feature("Familiar by design", "The toolbar, layers panel, Design panel, menus and shortcuts sit where your hands expect them."),
+            feature(
+                "Layouts that build themselves",
+                "Auto layout in both directions with wrap and grid, padding, gaps and Hug, Fill and Fixed sizing, plus constraints and layout grids.",
+            ),
+            feature(
+                "Components that scale",
+                "Instances with overrides that survive edits, component sets with variants and properties, and styles and variables with light and dark modes.",
+            ),
+            feature(
+                "Real vector networks",
+                "Pen and pencil, a shape builder, booleans whose operands stay editable, variable-width strokes and smooth corners.",
+            ),
+            feature(
+                "Prototype and hand off",
+                "Connections, triggers and animated transitions, a presentation view, and Dev Mode with measurements, annotations and generated code.",
+            ),
+            feature(
+                "Agent-ready",
+                "Every menu item, tool and gesture is a command, available over the CLI, a JSON control channel or an MCP server.",
+            ),
+        ],
+        shots: &[
+            shot("hero", "Auto layout screens in light and dark"),
+            shot("components", "Components, variants and the Assets panel"),
+            shot("prototype", "Prototype connections and flows"),
+            shot("dev-mode", "Dev Mode with annotations and generated code"),
+        ],
+        platforms: PLATFORMS,
+    },
 ];
 
 impl AppDetails {
@@ -417,7 +454,7 @@ mod tests {
         let page = AppDetails::by_id("photocraft").unwrap();
         assert_eq!(
             page.screenshot_url("demo").as_deref(),
-            Some("https://raw.githubusercontent.com/storytold/craft-launcher-assets/v1/photocraft/demo.jpg")
+            Some("https://raw.githubusercontent.com/storytold/craft-launcher-assets/v2/photocraft/demo.jpg")
         );
         for key in ["", "nope", "../vectorcraft/neon", "demo/../masks", "demo.jpg", "/etc/passwd", "demo?x=1", "demo#"] {
             assert_eq!(page.screenshot_url(key), None, "{key:?}");
